@@ -1,6 +1,6 @@
-import { invariant } from "@tanstack/react-router";
 import { ArgumentNotProvidedException } from "../../exceptions/exceptions";
 import { generatePrefixId } from "../../helpers/ids";
+import { invariant } from "../../utils";
 import { UniqueEntityID } from "../entities/unique-entity";
 
 type DomainEventMetadata = {

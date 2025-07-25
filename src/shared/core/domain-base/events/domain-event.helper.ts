@@ -1,30 +1,38 @@
-import mitt, { type EventHandlerMap, type Emitter, type Handler, type WildcardHandler } from "mitt";
-import type { EmitDomainEvents } from "./domain-event.types";
+import mitt, { type Emitter, type EventHandlerMap, type Handler, type WildcardHandler } from "mitt"
 
-export function mittAsync(all?: EventHandlerMap<EmitDomainEvents>): Emitter<EmitDomainEvents> {
-  const instance = mitt<EmitDomainEvents>(all);
+export type EmitDomainEvents = {
+  UserCreatedDomainEvent: { userId: string; email: string }
+  // Thêm các event khác tại đây
+}
 
-  // Add emitAsync to match the Emitter interface
-  instance.emitAsync = async function <Key extends keyof EmitDomainEvents>(
+export interface AsyncEventBus extends Emitter<EmitDomainEvents> {
+  emitAsync<Key extends keyof EmitDomainEvents>(
     type: Key,
     event: EmitDomainEvents[Key]
-  ): Promise<void> {
-    // Get specific handlers for the event type
-    const handlersType = this.all.get(type) as Array<Handler<EmitDomainEvents[Key]>> | undefined;
-    if (handlersType) {
-      for (const handler of handlersType) {
-        await handler(event); // Await handler execution
-      }
-    }
-
-    // Get wildcard handlers
-    const handlersWildcard = this.all.get("*") as Array<WildcardHandler<EmitDomainEvents>> | undefined;
-    if (handlersWildcard) {
-      for (const handler of handlersWildcard) {
-        await handler(type, event); // Await wildcard handler execution
-      }
-    }
-  };
-
-  return instance;
+  ): Promise<void>
 }
+
+export function createMittAsync(all?: EventHandlerMap<EmitDomainEvents>): AsyncEventBus {
+  const emitter = mitt<EmitDomainEvents>(all) as AsyncEventBus
+
+  emitter.emitAsync = async function (type, event) {
+    const handlers = this.all.get(type) as Handler<any>[] | undefined
+    if (handlers) {
+      for (const handler of handlers) {
+        await handler(event)
+      }
+    }
+
+    const wildcardHandlers = this.all.get("*") as WildcardHandler<EmitDomainEvents>[] | undefined
+    if (wildcardHandlers) {
+      for (const handler of wildcardHandlers) {
+        await handler(type, event)
+      }
+    }
+  }
+
+  return emitter
+}
+
+// Singleton export
+export const emitter = createMittAsync()
