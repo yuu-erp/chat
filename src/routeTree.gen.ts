@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LayoutRouteImport } from './routes/_layout'
 import { Route as LayoutIndexRouteImport } from './routes/_layout/index'
+import { Route as LayoutChooseWalletRouteImport } from './routes/_layout/choose-wallet'
 
 const LayoutRoute = LayoutRouteImport.update({
   id: '/_layout',
@@ -21,24 +22,32 @@ const LayoutIndexRoute = LayoutIndexRouteImport.update({
   path: '/',
   getParentRoute: () => LayoutRoute,
 } as any)
+const LayoutChooseWalletRoute = LayoutChooseWalletRouteImport.update({
+  id: '/choose-wallet',
+  path: '/choose-wallet',
+  getParentRoute: () => LayoutRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
+  '/choose-wallet': typeof LayoutChooseWalletRoute
   '/': typeof LayoutIndexRoute
 }
 export interface FileRoutesByTo {
+  '/choose-wallet': typeof LayoutChooseWalletRoute
   '/': typeof LayoutIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_layout': typeof LayoutRouteWithChildren
+  '/_layout/choose-wallet': typeof LayoutChooseWalletRoute
   '/_layout/': typeof LayoutIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/choose-wallet' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/_layout' | '/_layout/'
+  to: '/choose-wallet' | '/'
+  id: '__root__' | '/_layout' | '/_layout/choose-wallet' | '/_layout/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -61,14 +70,23 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutIndexRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/_layout/choose-wallet': {
+      id: '/_layout/choose-wallet'
+      path: '/choose-wallet'
+      fullPath: '/choose-wallet'
+      preLoaderRoute: typeof LayoutChooseWalletRouteImport
+      parentRoute: typeof LayoutRoute
+    }
   }
 }
 
 interface LayoutRouteChildren {
+  LayoutChooseWalletRoute: typeof LayoutChooseWalletRoute
   LayoutIndexRoute: typeof LayoutIndexRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutChooseWalletRoute: LayoutChooseWalletRoute,
   LayoutIndexRoute: LayoutIndexRoute,
 }
 
