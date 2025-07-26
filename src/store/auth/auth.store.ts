@@ -11,6 +11,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
     const isRegisted = await authService.checkRegister({ address: command.address })
     console.log({isRegisted})
     const session = await authService.login(command)
+    console.log({ session })
     set({ session: session })
   },
 }))

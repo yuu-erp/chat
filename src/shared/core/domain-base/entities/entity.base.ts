@@ -5,8 +5,7 @@ import {
   ArgumentOutOfRangeException,
 } from "../../exceptions/exceptions";
 import { UniqueEntityID } from "./unique-entity";
-import { invariant } from "@tanstack/react-router";
-import { isEmpty } from "../../utils";
+import { invariant, isEmpty } from "../../utils";
 import { convertPropsToObject } from "../../helpers/object";
 
 export interface BaseEntityProps {

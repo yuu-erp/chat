@@ -10,47 +10,111 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LayoutRouteImport } from './routes/_layout'
-import { Route as LayoutIndexRouteImport } from './routes/_layout/index'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as LayoutChooseWalletRouteImport } from './routes/_layout/choose-wallet'
+import { Route as LayoutAuthRouteImport } from './routes/_layout/_auth'
+import { Route as LayoutAuthSettingIndexRouteImport } from './routes/_layout/_auth/setting/index'
+import { Route as LayoutAuthProfileIndexRouteImport } from './routes/_layout/_auth/profile/index'
+import { Route as LayoutAuthChatIndexRouteImport } from './routes/_layout/_auth/chat/index'
+import { Route as LayoutAuthChatChatIdRouteImport } from './routes/_layout/_auth/chat/chat.$id'
 
 const LayoutRoute = LayoutRouteImport.update({
   id: '/_layout',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LayoutIndexRoute = LayoutIndexRouteImport.update({
+const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => LayoutRoute,
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LayoutChooseWalletRoute = LayoutChooseWalletRouteImport.update({
   id: '/choose-wallet',
   path: '/choose-wallet',
   getParentRoute: () => LayoutRoute,
 } as any)
+const LayoutAuthRoute = LayoutAuthRouteImport.update({
+  id: '/_auth',
+  getParentRoute: () => LayoutRoute,
+} as any)
+const LayoutAuthSettingIndexRoute = LayoutAuthSettingIndexRouteImport.update({
+  id: '/setting/',
+  path: '/setting/',
+  getParentRoute: () => LayoutAuthRoute,
+} as any)
+const LayoutAuthProfileIndexRoute = LayoutAuthProfileIndexRouteImport.update({
+  id: '/profile/',
+  path: '/profile/',
+  getParentRoute: () => LayoutAuthRoute,
+} as any)
+const LayoutAuthChatIndexRoute = LayoutAuthChatIndexRouteImport.update({
+  id: '/chat/',
+  path: '/chat/',
+  getParentRoute: () => LayoutAuthRoute,
+} as any)
+const LayoutAuthChatChatIdRoute = LayoutAuthChatChatIdRouteImport.update({
+  id: '/chat/chat/$id',
+  path: '/chat/chat/$id',
+  getParentRoute: () => LayoutAuthRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
   '/choose-wallet': typeof LayoutChooseWalletRoute
-  '/': typeof LayoutIndexRoute
+  '/chat': typeof LayoutAuthChatIndexRoute
+  '/profile': typeof LayoutAuthProfileIndexRoute
+  '/setting': typeof LayoutAuthSettingIndexRoute
+  '/chat/chat/$id': typeof LayoutAuthChatChatIdRoute
 }
 export interface FileRoutesByTo {
+  '/': typeof IndexRoute
   '/choose-wallet': typeof LayoutChooseWalletRoute
-  '/': typeof LayoutIndexRoute
+  '/chat': typeof LayoutAuthChatIndexRoute
+  '/profile': typeof LayoutAuthProfileIndexRoute
+  '/setting': typeof LayoutAuthSettingIndexRoute
+  '/chat/chat/$id': typeof LayoutAuthChatChatIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
   '/_layout': typeof LayoutRouteWithChildren
+  '/_layout/_auth': typeof LayoutAuthRouteWithChildren
   '/_layout/choose-wallet': typeof LayoutChooseWalletRoute
-  '/_layout/': typeof LayoutIndexRoute
+  '/_layout/_auth/chat/': typeof LayoutAuthChatIndexRoute
+  '/_layout/_auth/profile/': typeof LayoutAuthProfileIndexRoute
+  '/_layout/_auth/setting/': typeof LayoutAuthSettingIndexRoute
+  '/_layout/_auth/chat/chat/$id': typeof LayoutAuthChatChatIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/choose-wallet' | '/'
+  fullPaths:
+    | '/'
+    | '/choose-wallet'
+    | '/chat'
+    | '/profile'
+    | '/setting'
+    | '/chat/chat/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/choose-wallet' | '/'
-  id: '__root__' | '/_layout' | '/_layout/choose-wallet' | '/_layout/'
+  to:
+    | '/'
+    | '/choose-wallet'
+    | '/chat'
+    | '/profile'
+    | '/setting'
+    | '/chat/chat/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/_layout'
+    | '/_layout/_auth'
+    | '/_layout/choose-wallet'
+    | '/_layout/_auth/chat/'
+    | '/_layout/_auth/profile/'
+    | '/_layout/_auth/setting/'
+    | '/_layout/_auth/chat/chat/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
   LayoutRoute: typeof LayoutRouteWithChildren
 }
 
@@ -63,12 +127,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/_layout/': {
-      id: '/_layout/'
+    '/': {
+      id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof LayoutIndexRouteImport
-      parentRoute: typeof LayoutRoute
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_layout/choose-wallet': {
       id: '/_layout/choose-wallet'
@@ -77,23 +141,77 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LayoutChooseWalletRouteImport
       parentRoute: typeof LayoutRoute
     }
+    '/_layout/_auth': {
+      id: '/_layout/_auth'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof LayoutAuthRouteImport
+      parentRoute: typeof LayoutRoute
+    }
+    '/_layout/_auth/setting/': {
+      id: '/_layout/_auth/setting/'
+      path: '/setting'
+      fullPath: '/setting'
+      preLoaderRoute: typeof LayoutAuthSettingIndexRouteImport
+      parentRoute: typeof LayoutAuthRoute
+    }
+    '/_layout/_auth/profile/': {
+      id: '/_layout/_auth/profile/'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof LayoutAuthProfileIndexRouteImport
+      parentRoute: typeof LayoutAuthRoute
+    }
+    '/_layout/_auth/chat/': {
+      id: '/_layout/_auth/chat/'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof LayoutAuthChatIndexRouteImport
+      parentRoute: typeof LayoutAuthRoute
+    }
+    '/_layout/_auth/chat/chat/$id': {
+      id: '/_layout/_auth/chat/chat/$id'
+      path: '/chat/chat/$id'
+      fullPath: '/chat/chat/$id'
+      preLoaderRoute: typeof LayoutAuthChatChatIdRouteImport
+      parentRoute: typeof LayoutAuthRoute
+    }
   }
 }
 
+interface LayoutAuthRouteChildren {
+  LayoutAuthChatIndexRoute: typeof LayoutAuthChatIndexRoute
+  LayoutAuthProfileIndexRoute: typeof LayoutAuthProfileIndexRoute
+  LayoutAuthSettingIndexRoute: typeof LayoutAuthSettingIndexRoute
+  LayoutAuthChatChatIdRoute: typeof LayoutAuthChatChatIdRoute
+}
+
+const LayoutAuthRouteChildren: LayoutAuthRouteChildren = {
+  LayoutAuthChatIndexRoute: LayoutAuthChatIndexRoute,
+  LayoutAuthProfileIndexRoute: LayoutAuthProfileIndexRoute,
+  LayoutAuthSettingIndexRoute: LayoutAuthSettingIndexRoute,
+  LayoutAuthChatChatIdRoute: LayoutAuthChatChatIdRoute,
+}
+
+const LayoutAuthRouteWithChildren = LayoutAuthRoute._addFileChildren(
+  LayoutAuthRouteChildren,
+)
+
 interface LayoutRouteChildren {
+  LayoutAuthRoute: typeof LayoutAuthRouteWithChildren
   LayoutChooseWalletRoute: typeof LayoutChooseWalletRoute
-  LayoutIndexRoute: typeof LayoutIndexRoute
 }
 
 const LayoutRouteChildren: LayoutRouteChildren = {
+  LayoutAuthRoute: LayoutAuthRouteWithChildren,
   LayoutChooseWalletRoute: LayoutChooseWalletRoute,
-  LayoutIndexRoute: LayoutIndexRoute,
 }
 
 const LayoutRouteWithChildren =
   LayoutRoute._addFileChildren(LayoutRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
   LayoutRoute: LayoutRouteWithChildren,
 }
 export const routeTree = rootRouteImport

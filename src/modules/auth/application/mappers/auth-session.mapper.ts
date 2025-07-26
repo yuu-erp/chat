@@ -10,9 +10,10 @@ export class AuthSessionMapper implements Mapper<AuthSessionEntity, unknown, Aut
     throw new Error('Method not implemented.')
   }
   toResponse(entity: AuthSessionEntity): AuthSessionViewModel {
-    const { address } = entity.getProps()
+    const { address, publicKey } = entity.getProps()
     return {
-      address
+      address,
+      publicKey
     }
   }
 }

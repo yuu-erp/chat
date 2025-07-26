@@ -1,4 +1,25 @@
 {
+  // Bỏ qua các cảnh báo không rõ @tailwind trong CSS/SCSS
+  "css.validate": false,
+  "scss.validate": false,
+  "less.validate": false,
+
+  // Tailwind IntelliSense hỗ trợ class name tốt hơn
+  "tailwindCSS.includeLanguages": {
+    "typescript": "javascript",
+    "typescriptreact": "html",
+    "javascript": "javascript",
+    "javascriptreact": "html"
+  },
+
+  "tailwindCSS.experimental.classRegex": [
+    ["tw`([^`]*)", 1],
+    ["tw\\(\"([^\"]*)", 1],
+    ["className=\"([^\"]*)", 1],
+    ["className={`([^`}]+)", 1]
+  ],
+
+  // Tuỳ chọn: vẫn giữ phần bạn có nếu cần
   "files.watcherExclude": {
     "**/routeTree.gen.ts": true
   },
