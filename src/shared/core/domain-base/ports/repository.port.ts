@@ -7,7 +7,7 @@ export interface RepositoryPort<Entity> {
   existsById(id: string): MaybePromise<boolean>
   count(): MaybePromise<bigint | number>
 
-  insert(entity: Entity): MaybePromise<void | Entity>
+  insert(entity: Entity): MaybePromise<Entity>
   update(entity: Entity): MaybePromise<void | Entity>
 
   delete(entity: Entity): MaybePromise<boolean>

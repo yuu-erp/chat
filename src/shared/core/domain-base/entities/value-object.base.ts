@@ -1,7 +1,6 @@
-import { invariant } from "@tanstack/react-router";
 import { ArgumentNotProvidedException } from "../../exceptions/exceptions";
 import { convertPropsToObject } from "../../helpers/object";
-import { isEmpty } from "../../utils";
+import { invariant, isEmpty } from "../../utils";
 
 /**
  * Domain Primitive is an object that contains only a single value
