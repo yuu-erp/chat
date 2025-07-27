@@ -1,23 +1,42 @@
-import { ExceptionBase } from "@/shared/core/exceptions/exception.base"
+import { ExceptionBase } from "@/shared/core/exceptions/exception.base";
 
-/**
- * Mã lỗi định danh cho từng exception liên quan đến Auth
- */
-export const AUTH_ERROR_CODES = {
-  INVALID_ADDRESS: "AUTH.INVALID_ADDRESS",
-  PUBLIC_KEY_MISSING: "AUTH.PUBLIC_KEY_MISSING",
-} as const
+const AUTH_ADDRESS_INVALID = "AUTH.ADDRESS_INVALID"
+const AUTH_PUBLIC_KEY_INVALID = "AUTH.PUBLIC_KEY_INVALID"
+const AUTH_USER_ID_INVALID = "AUTH.USER_ID_INVALID"
 
-/**
- * Không đúng định dạng địa chỉ ví (invalid address)
- */
-export class InvalidAddressException extends ExceptionBase {
-  readonly code = AUTH_ERROR_CODES.INVALID_ADDRESS
+export class AuthUserIdInvalidException extends ExceptionBase {
+  readonly code = AUTH_USER_ID_INVALID
+
+  constructor(userID?: string) {
+    super(
+      userID
+        ? `Invalid user ID: ${userID}`
+        : "User ID is required",
+      { context: { userID } }
+    )
+  }
 }
-/**
- * Thiếu public key trong quá trình xác thực
- */
-export class PublicKeyMissingException extends ExceptionBase {
-  readonly code = AUTH_ERROR_CODES.PUBLIC_KEY_MISSING
-}
+export class AuthAddressInvalidException extends ExceptionBase {
+  readonly code = AUTH_ADDRESS_INVALID
 
+  constructor(address?: string) {
+    super(
+      address
+        ? `Invalid address format: ${address}`
+        : "Invalid address format",
+      { context: { address } }
+    )
+  }
+}
+export class AuthPublicKeyInvalidException extends ExceptionBase {
+  readonly code = AUTH_PUBLIC_KEY_INVALID
+
+  constructor(publicKey?: string) {
+    super(
+      publicKey
+        ? `Invalid public key format: ${publicKey}`
+        : "Invalid public key format",
+      { context: { publicKey } }
+    )
+  }
+}
