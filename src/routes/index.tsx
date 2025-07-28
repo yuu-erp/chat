@@ -1,4 +1,4 @@
-import { useAuth } from '@/shared/hooks/useAuth'
+import { accountService } from '@/modules/account/application/services/account.service'
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({
@@ -30,7 +30,6 @@ function RouteComponent() {
       visa: []
     }
   
-    const { login } = useAuth()
     return (
       <div
         style={{
@@ -52,7 +51,13 @@ function RouteComponent() {
             color: 'white',
             borderRadius: '14px'
           }}
-          onClick={() => login({ address: wallets.address, publicKey: wallets.addressBls })}
+          onClick={() => accountService.createAccount({
+            address: wallets.address,
+            name: wallets.name,
+            avatar: wallets.backgroundImage,
+            isActive: false,
+            userID: wallets.address
+          })}
         >
           Connect wallet
         </button>

@@ -10,5 +10,8 @@ export class AccountEntity extends AggregateRoot<AccountProps> {
     return account
   }
 
-  validate(): void {}
+  validate(): void {
+    const props = this.getProps()
+    console.log({ props })
+  }
 }

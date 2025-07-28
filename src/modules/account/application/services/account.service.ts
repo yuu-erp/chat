@@ -19,3 +19,5 @@ export class AccountService {
     return this.accountMapper.toResponse(entity)
   }
 }
+
+export const accountService = new AccountService()
